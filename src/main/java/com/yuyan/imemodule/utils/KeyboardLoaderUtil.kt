@@ -555,12 +555,12 @@ class KeyboardLoaderUtil private constructor() {
     private fun createLX17Keys(codes: Array<Int>, width: Float = 0.142f): Array<SoftKey> {
         val softKeys = mutableListOf<SoftKey>()
         val keyPreset = when {
-            skbValue == InputModeSwitcher.MASK_SKB_LAYOUT_NORMAL17 && numberLine -> KeyPreset.normal17PYKeyPreset
-            skbValue == InputModeSwitcher.MASK_SKB_LAYOUT_NORMAL17 -> KeyPreset.normal17PYKeyNumberPreset
+            mSkbValue == InputModeSwitcher.MASK_SKB_LAYOUT_NORMAL17 && numberLine -> KeyPreset.normal17PYKeyPreset
+            mSkbValue == InputModeSwitcher.MASK_SKB_LAYOUT_NORMAL17 -> KeyPreset.normal17PYKeyNumberPreset
             numberLine -> KeyPreset.lx17PYKeyPreset
             else -> KeyPreset.lx17PYKeyNumberPreset
         }
-        val mnemonicPreset = if (skbValue == InputModeSwitcher.MASK_SKB_LAYOUT_NORMAL17) normal17MnemonicPreset else lx17MnemonicPreset
+        val mnemonicPreset = if (mSkbValue == InputModeSwitcher.MASK_SKB_LAYOUT_NORMAL17) normal17MnemonicPreset else lx17MnemonicPreset
         for(code in codes){
             val labels = keyPreset[code]
             softKeys.add(SoftKey(code = code, label = labels?.getOrNull(0) ?: "", labelSmall = labels?.getOrNull(1) ?: "", keyMnemonic = mnemonicPreset[code] ?: "").apply {

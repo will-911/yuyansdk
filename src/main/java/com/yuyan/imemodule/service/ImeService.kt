@@ -39,13 +39,13 @@ import splitties.bitflags.hasFlag
  */
 class ImeService : InputMethodService() {
     private var isHardwareKeyboard = false
-    private var isSoftKeyboard = false
+    private var isWindowShown = false // 键盘窗口是否已显示
     private lateinit var mInputView: InputView
     private lateinit var mCandidateView: CandidateView
-    private val onThemeChangeListener = OnThemeChangeListener { _: Theme? -> if (isHardwareKeyboard) mCandidateView.updateTheme() else mInputView.updateTheme()}
+    private val onThemeChangeListener = OnThemeChangeListener { _: Theme? -> if (::mInputView.isInitialized) mInputView.updateTheme() }
     private val clipboardUpdateContent = getInstance().internal.clipboardUpdateContent
     private val clipboardUpdateContentListener = ManagedPreference.OnChangeListener<String> { _, value ->
-        if(isSoftKeyboard && getInstance().clipboard.clipboardSuggestion.getValue()){
+        if(::mInputView.isInitialized && mInputView.isShown && getInstance().clipboard.clipboardSuggestion.getValue()){
             if(value.isNotBlank()) {
                 if(KeyboardManager.instance.currentContainer is ClipBoardContainer
                     && (KeyboardManager.instance.currentContainer as ClipBoardContainer).getMenuMode() == SkbMenuMode.ClipBoard ){
@@ -72,19 +72,19 @@ class ImeService : InputMethodService() {
         return mCandidateView
     }
 
-    override fun onEvaluateInputViewShown(): Boolean {
-        return if(getInstance().keyboardSetting.showVirtualKeyboardOnPhysicalKeyboard.getValue()) true else super.onEvaluateInputViewShown()
-    }
-
     override fun onStartInput(editorInfo: EditorInfo?, restarting: Boolean) {
         YuyanEmojiCompat.setEditorInfo(editorInfo)
-        handleHardwareKeyboard()
-        if (isHardwareKeyboard)mCandidateView.onStartInput(editorInfo, restarting)
+        isHardwareKeyboard =  resources.configuration.keyboard != Configuration.KEYBOARD_NOKEYS
+        if(isHardwareKeyboard) {
+            setCandidatesViewShown(true)
+            currentInputConnection.requestCursorUpdates(InputConnection.CURSOR_UPDATE_MONITOR)
+        }
+        if (::mCandidateView.isInitialized)mCandidateView.onStartInput(editorInfo, restarting)
         super.onStartInput(editorInfo, restarting)
     }
 
     override fun onStartInputView(editorInfo: EditorInfo, restarting: Boolean) {
-        if (isSoftKeyboard)mInputView.onStartInputView(editorInfo, restarting)
+        if (::mInputView.isInitialized)mInputView.onStartInputView(editorInfo, restarting)
         super.onStartInputView(editorInfo, restarting)
     }
 
@@ -99,16 +99,18 @@ class ImeService : InputMethodService() {
      */
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        handleHardwareKeyboard(newConfig)
+        isHardwareKeyboard = (newConfig.keyboard != Configuration.KEYBOARD_NOKEYS)
         CoroutineScope(Dispatchers.Main).launch {
             delay(200) //延时，解决获取屏幕尺寸不准确。
             EnvironmentSingleton.instance.initData(baseContext)
-            if (isSoftKeyboard) {
+            if(isHardwareKeyboard){
+                setCandidatesViewShown(true)
+                currentInputConnection.requestCursorUpdates(InputConnection.CURSOR_UPDATE_MONITOR)
+                mCandidateView.initView()
+            } else if (::mInputView.isInitialized) {
                 KeyboardLoaderUtil.instance.clearKeyboardMap()
                 KeyboardManager.instance.clearKeyboard()
                 KeyboardManager.instance.switchKeyboard()
-            } else if(isHardwareKeyboard){
-                mCandidateView.initView()
             }
         }
         onSystemDarkModeChange(newConfig.isDarkMode())
@@ -118,16 +120,16 @@ class ImeService : InputMethodService() {
         // 0 != event.getRepeatCount()  长按物理按键或 Shift/Meta/Ctrl的组合按键时，交由系统处理;有个特殊组合键：Ctrl+SPACE切换语言
         return if (0 != event.repeatCount || event.isShiftPressed || event.isMetaPressed) super.onKeyDown(keyCode, event)
         else if(event.isCtrlPressed && keyCode != KeyEvent.KEYCODE_SPACE)super.onKeyDown(keyCode, event)
-        else if (isSoftKeyboard) mInputView.processKeyDown(keyCode, event) || super.onKeyUp(keyCode, event)
         else if (isHardwareKeyboard) mCandidateView.processKeyDown(keyCode, event) || super.onKeyUp(keyCode, event)
+        else if (isWindowShown) mInputView.processKeyDown(keyCode, event) || super.onKeyUp(keyCode, event)
         else super.onKeyDown(keyCode, event)
     }
 
     override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
         return if (0 != event.repeatCount || event.isShiftPressed || event.isMetaPressed) super.onKeyDown(keyCode, event)
         else if(event.isCtrlPressed && keyCode != KeyEvent.KEYCODE_SPACE)super.onKeyDown(keyCode, event)
-        else if (isSoftKeyboard) mInputView.processKeyUp(event) || super.onKeyUp(keyCode, event)
         else if (isHardwareKeyboard) mCandidateView.processKeyUp(event) || super.onKeyUp(keyCode, event)
+        else if (isWindowShown) mInputView.processKeyUp(event) || super.onKeyUp(keyCode, event)
         else super.onKeyDown(keyCode, event)
     }
 
@@ -144,34 +146,32 @@ class ImeService : InputMethodService() {
 
 
     override fun onComputeInsets(outInsets: Insets) {
-        val (x, y) = if (isSoftKeyboard && ::mInputView.isInitialized) intArrayOf(0, 0).also {if(mInputView.isAddPhrases) mInputView.mAddPhrasesLayout.getLocationInWindow(it) else mInputView.mSkbRoot.getLocationInWindow(it) }
-        else if (isHardwareKeyboard && ::mCandidateView.isInitialized) intArrayOf(0, 0).also {mCandidateView.mSkbRoot.getLocationInWindow(it) }
+        val (x, y) =  if (::mInputView.isInitialized) intArrayOf(0, 0).also {if(mInputView.isAddPhrases) mInputView.mAddPhrasesLayout.getLocationInWindow(it) else mInputView.mSkbRoot.getLocationInWindow(it) }
+        else if (::mCandidateView.isInitialized) intArrayOf(0, 0).also {mCandidateView.mSkbRoot.getLocationInWindow(it) }
         else intArrayOf(0, 0)
         outInsets.apply {
-            if(isSoftKeyboard || !isHardwareKeyboard){
-                if(EnvironmentSingleton.instance.keyboardModeFloat) {
-                    contentTopInsets = EnvironmentSingleton.instance.mScreenHeight
-                    visibleTopInsets = EnvironmentSingleton.instance.mScreenHeight
-                    touchableInsets = Insets.TOUCHABLE_INSETS_REGION
-                    touchableRegion.set(x, y, x + mInputView.mSkbRoot.width, y + mInputView.mSkbRoot.height)
-                } else {
-                    contentTopInsets = y
-                    touchableInsets = Insets.TOUCHABLE_INSETS_CONTENT
-                    touchableRegion.setEmpty()
-                    visibleTopInsets = y
-                }
-            } else {
+            if(isHardwareKeyboard) {
                 contentTopInsets = EnvironmentSingleton.instance.mScreenHeight
                 visibleTopInsets = EnvironmentSingleton.instance.mScreenHeight
                 touchableInsets = Insets.TOUCHABLE_INSETS_REGION
                 touchableRegion.set(x, y, x + mCandidateView.mSkbRoot.width, y + mCandidateView.mSkbRoot.height)
+            } else if(EnvironmentSingleton.instance.keyboardModeFloat) {
+                contentTopInsets = EnvironmentSingleton.instance.mScreenHeight
+                visibleTopInsets = EnvironmentSingleton.instance.mScreenHeight
+                touchableInsets = Insets.TOUCHABLE_INSETS_REGION
+                touchableRegion.set(x, y, x + mInputView.mSkbRoot.width, y + mInputView.mSkbRoot.height)
+            } else {
+                contentTopInsets = y
+                touchableInsets = Insets.TOUCHABLE_INSETS_CONTENT
+                touchableRegion.setEmpty()
+                visibleTopInsets = y
             }
         }
     }
 
     override fun onUpdateSelection(oldSelStart: Int, oldSelEnd: Int, newSelStart: Int, newSelEnd: Int, candidatesStart: Int, candidatesEnd: Int) {
         super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd)
-        if (isSoftKeyboard) mInputView.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesEnd)
+        if (::mInputView.isInitialized) mInputView.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesEnd)
     }
 
     private val cursorAnchorPosition = FloatArray(2)
@@ -188,12 +188,15 @@ class ImeService : InputMethodService() {
     }
 
     override fun onWindowShown() {
-        if (isSoftKeyboard) mInputView.onWindowShown()
+        if(isWindowShown) return
+        isWindowShown = true
+        if (::mInputView.isInitialized) mInputView.onWindowShown()
         super.onWindowShown()
     }
 
     override fun onWindowHidden() {
-        if(isSoftKeyboard) mInputView.onWindowHidden()
+        isWindowShown = false
+        if(::mInputView.isInitialized) mInputView.onWindowHidden()
         super.onWindowHidden()
     }
 
@@ -292,15 +295,4 @@ class ImeService : InputMethodService() {
     fun setSelection(start: Int, end: Int) {
         currentInputConnection.setSelection(start, end)
     }
-
-    fun handleHardwareKeyboard(newConfig: Configuration? = null) {
-        val hardwareKeyboard = if (getInstance().keyboardSetting.showVirtualKeyboardOnPhysicalKeyboard.getValue()) false
-            else if (newConfig != null) (newConfig.keyboard != Configuration.KEYBOARD_NOKEYS)
-            else resources.configuration.keyboard != Configuration.KEYBOARD_NOKEYS
-        isSoftKeyboard = !hardwareKeyboard
-        isHardwareKeyboard = hardwareKeyboard
-        setCandidatesViewShown(isHardwareKeyboard)
-        currentInputConnection.requestCursorUpdates(if(isHardwareKeyboard)InputConnection.CURSOR_UPDATE_MONITOR else 0)
-    }
-
 }

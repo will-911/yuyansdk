@@ -18,9 +18,11 @@ import com.yuyan.imemodule.database.entry.SkbFun
 import com.yuyan.imemodule.database.entry.UsedSymbol
 import com.yuyan.imemodule.prefs.behavior.SkbMenuMode
 import com.yuyan.imemodule.utils.thread.ThreadPoolUtils
+import com.yuyan.inputmethod.util.LX17PinYinUtils
+import com.yuyan.inputmethod.util.Normal17PinYinUtils
 
 //@Database(entities = [SideSymbol::class, Clipboard::class, UsedSymbol::class], version = 1, exportSchema = false)
-@Database(entities = [SideSymbol::class, Clipboard::class, UsedSymbol::class, Phrase::class, SkbFun::class], version = 4, exportSchema = false)
+@Database(entities = [SideSymbol::class, Clipboard::class, UsedSymbol::class, Phrase::class, SkbFun::class], version = 5, exportSchema = false)
 abstract class DataBaseKT : RoomDatabase() {
     abstract fun sideSymbolDao(): SideSymbolDao
     abstract fun clipboardDao(): ClipboardDao
@@ -48,11 +50,18 @@ abstract class DataBaseKT : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_4_5 = object : Migration(4, 5) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE phrase ADD COLUMN normal17 TEXT NOT NULL DEFAULT ''")
+            }
+        }
+
         val instance = Room.databaseBuilder(Launcher.instance.context, DataBaseKT::class.java, "ime_db")
             .allowMainThreadQueries()
             .addMigrations(MIGRATION_1_2)
             .addMigrations(MIGRATION_2_3)
             .addMigrations(MIGRATION_3_4)
+            .addMigrations(MIGRATION_4_5)
             .addCallback(object :Callback(){
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
@@ -90,6 +99,14 @@ abstract class DataBaseKT : RoomDatabase() {
                     Phrase(content = "麻烦放驿站，谢谢。", t9 = "6339", qwerty = "mffy", lx17 = "mffy"),
                 )
                 instance.phraseDao().insertAll(phrases)
+            }
+            // 由常用语的拼音首字母同时维护两套17键索引，兼容升级前的数据。
+            instance.phraseDao().getAll().forEach { phrase ->
+                val lx17 = phrase.qwerty.map { LX17PinYinUtils.pinyin2Lx17Key(it) }.joinToString("")
+                val normal17 = phrase.qwerty.map { Normal17PinYinUtils.pinyinInitialToKey(it) }.joinToString("")
+                if (phrase.lx17 != lx17 || phrase.normal17 != normal17) {
+                    instance.phraseDao().update(phrase.copy(lx17 = lx17, normal17 = normal17))
+                }
             }
             if(instance.skbFunDao().getAllMenu().isEmpty()) {
                 val skbFuns = listOf(

@@ -63,6 +63,30 @@ object KeyboardData {
     )
 
     val layoutLX17Cn: Map<SkbStyleMode, ArrayList<Array<Int>>> = linkedMapOf(
+        SkbStyleMode.Google to lx17Rows(),
+        SkbStyleMode.Samsung to lx17Rows(),
+        SkbStyleMode.Yuyan to lx17Rows(),
+    )
+
+    private fun lx17Rows() = arrayListOf(
+        arrayOf(36, 47, 54, 30, 52, 41),
+        arrayOf(40, 32, 53, 51, 38, 42),
+        arrayOf(31, 45, 35, 34, 48, 67),
+    )
+
+    val layoutLX17CnWithLeftPrefix: Map<SkbStyleMode, ArrayList<Array<Int>>> = linkedMapOf(
+        SkbStyleMode.Google to lx17RowsWithLeftPrefix(),
+        SkbStyleMode.Samsung to lx17RowsWithLeftPrefix(),
+        SkbStyleMode.Yuyan to lx17RowsWithLeftPrefix(),
+    )
+
+    private fun lx17RowsWithLeftPrefix() = arrayListOf(
+        arrayOf(InputModeSwitcher.USER_KEYCODE_LEFT_SYMBOL, 36, 47, 54, 30, 52, 41),
+        arrayOf(40, 32, 53, 51, 38, 42),
+        arrayOf(31, 45, 35, 34, 48, 67),
+    )
+
+    val layoutNormal17Cn: Map<SkbStyleMode, ArrayList<Array<Int>>> = linkedMapOf(
         SkbStyleMode.Google to normal17Rows(),
         SkbStyleMode.Samsung to normal17Rows(),
         SkbStyleMode.Yuyan to normal17Rows(),
@@ -74,7 +98,7 @@ object KeyboardData {
         arrayOf(KeyEvent.KEYCODE_Z, KeyEvent.KEYCODE_C, KeyEvent.KEYCODE_V, KeyEvent.KEYCODE_B, KeyEvent.KEYCODE_M, KeyEvent.KEYCODE_DEL),
     )
 
-    val layoutLX17CnWithLeftPrefix: Map<SkbStyleMode, ArrayList<Array<Int>>> = linkedMapOf(
+    val layoutNormal17CnWithLeftPrefix: Map<SkbStyleMode, ArrayList<Array<Int>>> = linkedMapOf(
         SkbStyleMode.Google to normal17RowsWithLeftPrefix(),
         SkbStyleMode.Samsung to normal17RowsWithLeftPrefix(),
         SkbStyleMode.Yuyan to normal17RowsWithLeftPrefix(),

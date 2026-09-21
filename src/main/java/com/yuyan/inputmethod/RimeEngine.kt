@@ -11,6 +11,7 @@ import com.yuyan.inputmethod.core.Rime
 import com.yuyan.inputmethod.data.InputKey
 import com.yuyan.inputmethod.data.KeyRecordStack
 import com.yuyan.inputmethod.util.DoublePinYinUtils
+import com.yuyan.inputmethod.util.LX17PinYinUtils
 import com.yuyan.inputmethod.util.Normal17PinYinUtils
 import com.yuyan.inputmethod.util.QwertyPinYinUtils
 import com.yuyan.inputmethod.util.T9PinYinUtils
@@ -222,6 +223,9 @@ object RimeEngine {
                 T9PinYinUtils.t9KeyToPinyin(compositionText.split('\'').firstOrNull { part -> part.isNotEmpty() && part.all { it.isUpperCase() } } ?: "")
             }
             CustomConstant.SCHEMA_ZH_DOUBLE_LX17 -> {
+                LX17PinYinUtils.lx17KeyToPinyin(compositionText.split('\'').firstOrNull { part -> part.isNotEmpty() && part.all { it.isUpperCase() } } ?: "")
+            }
+            CustomConstant.SCHEMA_ZH_DOUBLE_NORMAL17 -> {
                 Normal17PinYinUtils.normal17KeyToPinyin(compositionText.split('\'').firstOrNull { part -> part.isNotEmpty() && part.all { it.isUpperCase() } } ?: "")
             }
             else -> {

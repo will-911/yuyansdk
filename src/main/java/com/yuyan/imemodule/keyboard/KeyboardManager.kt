@@ -19,7 +19,7 @@ import com.yuyan.imemodule.prefs.AppPrefs
  */
 class KeyboardManager {
     enum class KeyboardType {
-        T9, QWERTY, LX17, QWERTYABC, NUMBER, SYMBOL, SETTINGS, HANDWRITING, CANDIDATES, ClipBoard, TEXTEDIT
+        T9, QWERTY, LX17, NORMAL17, QWERTYABC, NUMBER, SYMBOL, SETTINGS, HANDWRITING, CANDIDATES, ClipBoard, TEXTEDIT
     }
     private lateinit var mInputView: InputView
     private lateinit var mKeyboardRootView: InputViewParent
@@ -46,6 +46,7 @@ class KeyboardManager {
             0x3000 -> KeyboardType.HANDWRITING
             0x5000 -> KeyboardType.NUMBER
             0x6000 -> KeyboardType.LX17
+            0x9000 -> KeyboardType.NORMAL17
             0x8000 -> KeyboardType.TEXTEDIT
             else -> KeyboardType.T9
         }
@@ -66,6 +67,7 @@ class KeyboardManager {
                 KeyboardType.SYMBOL -> SymbolContainer(Launcher.instance.context, mInputView)
                 KeyboardType.QWERTYABC -> QwertyContainer(Launcher.instance.context, mInputView, InputModeSwitcher.MASK_SKB_LAYOUT_QWERTY_ABC)
                 KeyboardType.LX17 -> T9TextContainer(Launcher.instance.context, mInputView, InputModeSwitcher.MASK_SKB_LAYOUT_LX17)
+                KeyboardType.NORMAL17 -> T9TextContainer(Launcher.instance.context, mInputView, InputModeSwitcher.MASK_SKB_LAYOUT_NORMAL17)
                 KeyboardType.ClipBoard -> ClipBoardContainer(Launcher.instance.context, mInputView)
                 KeyboardType.TEXTEDIT -> QwertyContainer(Launcher.instance.context, mInputView, InputModeSwitcher.MASK_SKB_LAYOUT_TEXTEDIT)
                 else ->  T9TextContainer(Launcher.instance.context, mInputView, AppPrefs.getInstance().internal.inputDefaultMode.getValue() and InputModeSwitcher.MASK_SKB_LAYOUT)

@@ -164,7 +164,7 @@ val doubleSogouMnemonicPreset: Map<Int, String> = hashMapOf(
     41 to "ian",
 )
 
-val lx17MnemonicPreset: Map<Int, String> = hashMapOf(
+val normal17MnemonicPreset: Map<Int, String> = hashMapOf(
     45 to "iu ei",       // QW
     33 to "uan",         // ER
     48 to "ue ve un",    // TY
@@ -183,4 +183,11 @@ val lx17MnemonicPreset: Map<Int, String> = hashMapOf(
     30 to "in iao",      // BN
     41 to "ian",         // M
     75 to "分词",
+)
+val lx17MnemonicPreset: Map<Int, String> = hashMapOf(
+    36 to "a ia ua", 47 to "en in", 54 to "ang iao", 30 to "ao iong",
+    52 to "uai uan", 41 to "ie uo", 40 to "ai ue", 32 to "u",
+    53 to "eng ing", 51 to "e", 38 to "i", 42 to "an",
+    31 to "iang ui", 45 to "ian uang", 35 to "ei un", 34 to "iu ou",
+    48 to "er ong",
 )

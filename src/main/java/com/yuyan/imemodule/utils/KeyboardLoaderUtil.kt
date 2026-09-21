@@ -20,6 +20,7 @@ import com.yuyan.imemodule.keyboard.doubleNaturalMnemonicPreset
 import com.yuyan.imemodule.keyboard.doubleSogouMnemonicPreset
 import com.yuyan.imemodule.keyboard.doubleZiguangMnemonicPreset
 import com.yuyan.imemodule.keyboard.lx17MnemonicPreset
+import com.yuyan.imemodule.keyboard.normal17MnemonicPreset
 import com.yuyan.imemodule.prefs.behavior.SkbStyleMode
 import java.util.LinkedList
 
@@ -201,10 +202,12 @@ class KeyboardLoaderUtil private constructor() {
                 keyBeans = lastRows(skbValue)
                 rows.add(keyBeans)
             }
-            InputModeSwitcher.MASK_SKB_LAYOUT_LX17 -> {     // 6000 普通17键键盘
+            InputModeSwitcher.MASK_SKB_LAYOUT_LX17,
+            InputModeSwitcher.MASK_SKB_LAYOUT_NORMAL17 -> {     // 乱序/普通17键键盘
                 var keyBeans: MutableList<SoftKey> = LinkedList()
                 if(AppPrefs.getInstance().keyboardSetting.lx17WithLeftPrefix.getValue()) {
-                    val keys = KeyboardData.layoutLX17CnWithLeftPrefix[skbStyleMode]!!
+                    val layout = if (skbValue == InputModeSwitcher.MASK_SKB_LAYOUT_NORMAL17) KeyboardData.layoutNormal17CnWithLeftPrefix else KeyboardData.layoutLX17CnWithLeftPrefix
+                    val keys = layout[skbStyleMode]!!
                     var lX17Keys = createLX17Keys(keys[0])
                     lX17Keys.first().apply {
                         widthF = 0.1457f
@@ -226,7 +229,8 @@ class KeyboardLoaderUtil private constructor() {
                     keyBeans = lastRows(skbValue)
                     rows.add(keyBeans)
                 } else {
-                    val keys =  KeyboardData.layoutLX17Cn[skbStyleMode]!!
+                    val layout = if (skbValue == InputModeSwitcher.MASK_SKB_LAYOUT_NORMAL17) KeyboardData.layoutNormal17Cn else KeyboardData.layoutLX17Cn
+                    val keys = layout[skbStyleMode]!!
                     var lX17Keys = createLX17Keys(keys[0], 0.165f)
                     keyBeans.addAll(lX17Keys)
                     rows.add(keyBeans)
@@ -344,7 +348,8 @@ class KeyboardLoaderUtil private constructor() {
             InputModeSwitcher.MASK_SKB_LAYOUT_NUMBER -> {
                 createT9NumberKeys(arrayOf(InputModeSwitcher.USER_KEYCODE_SYMBOL, InputModeSwitcher.USER_KEYCODE_RETURN, 7, KeyEvent.KEYCODE_SPACE))
             }
-            InputModeSwitcher.MASK_SKB_LAYOUT_LX17 -> {
+            InputModeSwitcher.MASK_SKB_LAYOUT_LX17,
+            InputModeSwitcher.MASK_SKB_LAYOUT_NORMAL17 -> {
                 if(skbStyleMode == SkbStyleMode.Google){
                     createT9Keys(arrayOf(InputModeSwitcher.USER_KEYCODE_NUMBER, InputModeSwitcher.USER_KEYCODE_COMMA_EMOJI, InputModeSwitcher.USER_KEYCODE_LANG,
                         KeyEvent.KEYCODE_SPACE, InputModeSwitcher.USER_KEYCODE_LEFT_PERIOD))
@@ -549,10 +554,16 @@ class KeyboardLoaderUtil private constructor() {
 
     private fun createLX17Keys(codes: Array<Int>, width: Float = 0.142f): Array<SoftKey> {
         val softKeys = mutableListOf<SoftKey>()
-        val keyPreset = if(numberLine)KeyPreset.lx17PYKeyPreset else KeyPreset.lx17PYKeyNumberPreset
+        val keyPreset = when {
+            skbValue == InputModeSwitcher.MASK_SKB_LAYOUT_NORMAL17 && numberLine -> KeyPreset.normal17PYKeyPreset
+            skbValue == InputModeSwitcher.MASK_SKB_LAYOUT_NORMAL17 -> KeyPreset.normal17PYKeyNumberPreset
+            numberLine -> KeyPreset.lx17PYKeyPreset
+            else -> KeyPreset.lx17PYKeyNumberPreset
+        }
+        val mnemonicPreset = if (skbValue == InputModeSwitcher.MASK_SKB_LAYOUT_NORMAL17) normal17MnemonicPreset else lx17MnemonicPreset
         for(code in codes){
             val labels = keyPreset[code]
-            softKeys.add(SoftKey(code = code, label = labels?.getOrNull(0) ?: "", labelSmall = labels?.getOrNull(1) ?: "", keyMnemonic= lx17MnemonicPreset[code] ?: "").apply {
+            softKeys.add(SoftKey(code = code, label = labels?.getOrNull(0) ?: "", labelSmall = labels?.getOrNull(1) ?: "", keyMnemonic = mnemonicPreset[code] ?: "").apply {
                 widthF = width
             })
         }

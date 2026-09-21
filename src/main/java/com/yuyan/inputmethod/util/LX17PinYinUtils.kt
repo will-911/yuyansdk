@@ -384,5 +384,11 @@ object LX17PinYinUtils {
         return ""
     }
 
+    internal fun allPinyinSyllables(): Set<String> = lx17PinyinMap.values
+        .asSequence()
+        .flatMap { it.split(",").asSequence() }
+        .filter { it.isNotBlank() }
+        .toSet()
+
     fun pinyin2Lx17Key(pinyin: Char): String = lx17KeyMap[pinyin]?:pinyin.toString()
 }

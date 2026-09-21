@@ -38,4 +38,16 @@ class Normal17PinYinUtilsTest {
         assertEquals("B", Normal17PinYinUtils.pinyinInitialToKey('n'))
         assertEquals("Z", Normal17PinYinUtils.pinyinInitialToKey('x'))
     }
+
+    @Test
+    fun keepsSelectedFullPinyinInsteadOfExpandingItAgain() {
+        assertEquals(
+            "ni'",
+            DoublePinYinUtils.getDoublePinYinComposition(
+                "double_pinyin_normal17",
+                "ni'",
+                "",
+            ),
+        )
+    }
 }

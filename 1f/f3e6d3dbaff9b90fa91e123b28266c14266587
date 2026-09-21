@@ -1,0 +1,45 @@
+src/main/assets/rime/build/double_pinyin_normal17.schema.yaml
+  s_239592eb13c2c0::t_81438719287cce 1-67
+src/main/assets/rime/build/double_pinyin_abc.schema.yaml
+  s_239592eb13c2c0::t_2e9fd0303ec1c1 1-72
+src/main/assets/rime/build/double_pinyin_flypy.schema.yaml
+  s_239592eb13c2c0::t_d29fa25e71d7ce 1-72
+src/main/assets/rime/build/double_pinyin_ls17.schema.yaml
+  s_239592eb13c2c0::t_61b627ea3b323b 1-67
+src/main/assets/rime/build/double_pinyin_mspy.schema.yaml
+  s_239592eb13c2c0::t_c50a35d63e8d63 1-72
+src/main/assets/rime/build/double_pinyin_natural.schema.yaml
+  s_239592eb13c2c0::t_6f19e27788587f 1-72
+src/main/assets/rime/build/double_pinyin_sogou.schema.yaml
+  s_239592eb13c2c0::t_ea3f02d962888e 1-72
+src/main/assets/rime/build/double_pinyin_ziguang.schema.yaml
+  s_239592eb13c2c0::t_c0f5493b129141 1-72
+src/main/assets/rime/build/english.schema.yaml
+  s_239592eb13c2c0::t_67a67a83bd481d 1-47
+src/main/assets/rime/build/pinyin.schema.yaml
+  s_239592eb13c2c0::t_9ab7a29d3d5904 1-69
+src/main/assets/rime/build/stroke.schema.yaml
+  s_239592eb13c2c0::t_f84889ee1f56af 1-44
+src/main/assets/rime/build/t9_pinyin.schema.yaml
+  s_239592eb13c2c0::t_0ec37f6979705e 1-54
+src/main/java/com/yuyan/imemodule/service/ImeService.kt
+  s_239592eb13c2c0::t_9ec75d3b529b25 42,45,48,77-82,87,102,106-110,124,132,149-150,153,158-167,174,191-193,198-199
+src/main/assets/rime/build/default.yaml
+  s_239592eb13c2c0::t_3976ac4920f68c 1-19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "1ff3e6d3dbaff9b90fa91e123b28266c14266587",
+  "prompts": {},
+  "sessions": {
+    "s_239592eb13c2c0": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a0bd2a-8f21-7233-82ef-a4deb60f022f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Will Yu <will.yu@zoom.us>"
+    }
+  }
+}

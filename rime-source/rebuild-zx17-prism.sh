@@ -4,35 +4,37 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ASSET_BUILD_DIR="$ROOT_DIR/src/main/assets/rime/build"
 SCHEMA_SOURCE="$ROOT_DIR/rime-source/double_pinyin_zx17.schema.yaml"
+PINYIN_SOURCE="$ROOT_DIR/src/main/java/com/yuyan/inputmethod/util/LX17PinYinUtils.kt"
 OUTPUT_PATH="${1:-$ASSET_BUILD_DIR/double_pinyin_zx17.prism.bin}"
-RIME_TABLE_DECOMPILER="${RIME_TABLE_DECOMPILER:-rime_table_decompiler}"
 RIME_DEPLOYER="${RIME_DEPLOYER:-rime_deployer}"
 
-command -v "$RIME_TABLE_DECOMPILER" >/dev/null
 command -v "$RIME_DEPLOYER" >/dev/null
 
 tmp_dir="$(mktemp -d)"
 trap 'rm -rf "$tmp_dir"' EXIT
 mkdir -p "$tmp_dir/build" "$(dirname "$OUTPUT_PATH")"
 
-"$RIME_TABLE_DECOMPILER" \
-  "$ASSET_BUILD_DIR/pinyin.table.bin" \
-  "$tmp_dir/pinyin.dict.yaml"
-# The decompiler derives the dictionary name from pinyin.table.bin.
-# The schema references it as "pinyin", so normalize the generated header.
-python3 - "$tmp_dir/pinyin.dict.yaml" <<'PY'
+# A prism only needs the dictionary's syllable inventory. Generate a tiny source
+# dictionary from the same syllable set used by the ZX17 filter UI instead of
+# decompiling the app's newer pinyin.table.bin with an older distro librime.
+python3 - "$PINYIN_SOURCE" "$tmp_dir/pinyin.dict.yaml" <<'PY'
 from pathlib import Path
+import re
 import sys
 
-path = Path(sys.argv[1])
-lines = path.read_text().splitlines()
-for index, line in enumerate(lines):
-    if line.startswith("name: "):
-        lines[index] = "name: pinyin"
-        break
-else:
-    raise SystemExit("decompiled dictionary has no name header")
-path.write_text("\n".join(lines) + "\n")
+source = Path(sys.argv[1]).read_text()
+values = re.findall(r'lx17PinyinMap\.put\("[^"]+",\s*"([^"]+)"\)', source)
+syllables = {item for value in values for item in value.split(",") if item}
+syllables.update({"cei", "dia", "fiao", "kei", "nou", "qi", "rua", "yo", "zhei"})
+
+header = """---
+name: pinyin
+version: "zx17"
+sort: by_weight
+...
+"""
+entries = "\n".join(f"{syllable}\t{syllable}\t1" for syllable in sorted(syllables))
+Path(sys.argv[2]).write_text(header + entries + "\n")
 PY
 cp "$SCHEMA_SOURCE" "$tmp_dir/"
 

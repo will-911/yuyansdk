@@ -205,7 +205,6 @@ interface InputKey {
 
         fun copy(posInInput: Int) = PinyinKey(pinyin, posInInput)
 
-        fun pinyin(appendDelimiter: Boolean): String =
-            pinyin.lowercase() + if (appendDelimiter) "'" else ""
+        fun pinyin() = "${pinyin.lowercase()}'"
     }
 }

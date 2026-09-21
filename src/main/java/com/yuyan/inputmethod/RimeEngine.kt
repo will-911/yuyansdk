@@ -95,15 +95,7 @@ object RimeEngine {
 
     fun selectPinyin(index: Int) {
         val pinyinKey = keyRecordStack.pushPinyinSelectAction(pinyins[index]) ?: return
-        val encodedLength = pinyinKey.t9Keys().length
-        val hasFollowingInput = pinyinKey.posInInput + encodedLength < Rime.compositionText.length
-        val appendDelimiter =
-            Rime.getCurrentRimeSchema() != CustomConstant.SCHEMA_ZH_DOUBLE_ZX17 || hasFollowingInput
-        Rime.replaceKey(
-            pinyinKey.posInInput,
-            encodedLength,
-            pinyinKey.pinyin(appendDelimiter),
-        )
+        Rime.replaceKey(pinyinKey.posInInput, pinyinKey.t9Keys().length, pinyinKey.pinyin())
         updateCandidatesOrCommitText()
     }
 

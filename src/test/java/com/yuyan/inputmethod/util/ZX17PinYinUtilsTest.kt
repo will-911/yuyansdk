@@ -47,9 +47,7 @@ class ZX17PinYinUtilsTest {
     }
 
     @Test
-    fun omitsDelimiterWhenSelectedSyllableIsAtInputEnd() {
-        val pinyinKey = InputKey.PinyinKey("ni")
-        assertEquals("ni", pinyinKey.pinyin(appendDelimiter = false))
-        assertEquals("ni'", pinyinKey.pinyin(appendDelimiter = true))
+    fun selectedPinyinUsesSameDelimiterProtocolAsLX17() {
+        assertEquals("ni'", InputKey.PinyinKey("ni").pinyin())
     }
 }

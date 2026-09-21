@@ -1,0 +1,24 @@
+src/main/java/com/yuyan/inputmethod/util/Normal17PinYinUtils.kt
+  s_239592eb13c2c0::t_494e7f241127bd 1-165
+  s_239592eb13c2c0::t_4cce80f0bef5d4 166-168
+src/test/java/com/yuyan/inputmethod/util/Normal17PinYinUtilsTest.kt
+  s_239592eb13c2c0::t_68ae6ca17ac322 1-41
+src/main/java/com/yuyan/inputmethod/util/LX17PinYinUtils.kt
+  s_239592eb13c2c0::t_3476d88e576e60 387-392
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "cc2843fa7b3214715b783ef1a7c8c0420c727186",
+  "prompts": {},
+  "sessions": {
+    "s_239592eb13c2c0": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a0bd2a-8f21-7233-82ef-a4deb60f022f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Will Yu <will.yu@zoom.us>"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+rime-source/rebuild-zx17-prism.sh
+  s_239592eb13c2c0::t_fc7dec506e322f 1-40
+  s_239592eb13c2c0::t_bf7d854b8f3b54 41-52
+src/main/java/com/yuyan/inputmethod/RimeEngine.kt
+  s_239592eb13c2c0::t_9c865d40939751 98
+src/main/java/com/yuyan/inputmethod/data/KeyRecordStack.kt
+  s_239592eb13c2c0::t_9e41baa3c76987 208
+src/test/java/com/yuyan/inputmethod/util/ZX17PinYinUtilsTest.kt
+  s_239592eb13c2c0::t_1affb1b962be81 50-51
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "024363d6bcc3d8b9800863667363e5545b62fd97",
+  "prompts": {},
+  "sessions": {
+    "s_239592eb13c2c0": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a0bd2a-8f21-7233-82ef-a4deb60f022f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Will Yu <will.yu@zoom.us>"
+    }
+  }
+}

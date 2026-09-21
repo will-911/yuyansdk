@@ -164,7 +164,7 @@ val doubleSogouMnemonicPreset: Map<Int, String> = hashMapOf(
     41 to "ian",
 )
 
-val normal17MnemonicPreset: Map<Int, String> = hashMapOf(
+val zx17MnemonicPreset: Map<Int, String> = hashMapOf(
     45 to "iu ei",       // QW
     33 to "uan",         // ER
     48 to "ue ve un",    // TY

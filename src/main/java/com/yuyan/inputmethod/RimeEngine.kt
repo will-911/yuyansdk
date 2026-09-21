@@ -12,7 +12,7 @@ import com.yuyan.inputmethod.data.InputKey
 import com.yuyan.inputmethod.data.KeyRecordStack
 import com.yuyan.inputmethod.util.DoublePinYinUtils
 import com.yuyan.inputmethod.util.LX17PinYinUtils
-import com.yuyan.inputmethod.util.Normal17PinYinUtils
+import com.yuyan.inputmethod.util.ZX17PinYinUtils
 import com.yuyan.inputmethod.util.QwertyPinYinUtils
 import com.yuyan.inputmethod.util.T9PinYinUtils
 import java.util.Locale
@@ -95,7 +95,15 @@ object RimeEngine {
 
     fun selectPinyin(index: Int) {
         val pinyinKey = keyRecordStack.pushPinyinSelectAction(pinyins[index]) ?: return
-        Rime.replaceKey(pinyinKey.posInInput, pinyinKey.t9Keys().length, pinyinKey.pinyin())
+        val encodedLength = pinyinKey.t9Keys().length
+        val hasFollowingInput = pinyinKey.posInInput + encodedLength < Rime.compositionText.length
+        val appendDelimiter =
+            Rime.getCurrentRimeSchema() != CustomConstant.SCHEMA_ZH_DOUBLE_ZX17 || hasFollowingInput
+        Rime.replaceKey(
+            pinyinKey.posInInput,
+            encodedLength,
+            pinyinKey.pinyin(appendDelimiter),
+        )
         updateCandidatesOrCommitText()
     }
 
@@ -225,8 +233,8 @@ object RimeEngine {
             CustomConstant.SCHEMA_ZH_DOUBLE_LX17 -> {
                 LX17PinYinUtils.lx17KeyToPinyin(compositionText.split('\'').firstOrNull { part -> part.isNotEmpty() && part.all { it.isUpperCase() } } ?: "")
             }
-            CustomConstant.SCHEMA_ZH_DOUBLE_NORMAL17 -> {
-                Normal17PinYinUtils.normal17KeyToPinyin(compositionText.split('\'').firstOrNull { part -> part.isNotEmpty() && part.all { it.isUpperCase() } } ?: "")
+            CustomConstant.SCHEMA_ZH_DOUBLE_ZX17 -> {
+                ZX17PinYinUtils.zx17KeyToPinyin(compositionText.split('\'').firstOrNull { part -> part.isNotEmpty() && part.all { it.isUpperCase() } } ?: "")
             }
             else -> {
                 emptyArray()

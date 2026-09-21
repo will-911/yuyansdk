@@ -5,7 +5,7 @@ import com.yuyan.imemodule.application.CustomConstant
 import com.yuyan.inputmethod.RimeEngine.processDelAction
 import com.yuyan.inputmethod.core.Rime
 import com.yuyan.inputmethod.util.LX17PinYinUtils
-import com.yuyan.inputmethod.util.Normal17PinYinUtils
+import com.yuyan.inputmethod.util.ZX17PinYinUtils
 import com.yuyan.inputmethod.util.T9PinYinUtils
 import java.util.LinkedList
 
@@ -75,8 +75,8 @@ class KeyRecordStack {
                     keys.add(InputKey.T9Key(it))
                 }
             }
-            CustomConstant.SCHEMA_ZH_DOUBLE_NORMAL17 -> {
-                Normal17PinYinUtils.pinyin2Key(pinyin).forEach {
+            CustomConstant.SCHEMA_ZH_DOUBLE_ZX17 -> {
+                ZX17PinYinUtils.pinyin2Key(pinyin).forEach {
                     keys.add(InputKey.T9Key(it))
                 }
             }
@@ -171,8 +171,8 @@ interface InputKey {
                 CustomConstant.SCHEMA_ZH_DOUBLE_LX17 -> {
                     LX17PinYinUtils.pinyin2Key(pinyin)
                 }
-                CustomConstant.SCHEMA_ZH_DOUBLE_NORMAL17 -> {
-                    Normal17PinYinUtils.pinyin2Key(pinyin)
+                CustomConstant.SCHEMA_ZH_DOUBLE_ZX17 -> {
+                    ZX17PinYinUtils.pinyin2Key(pinyin)
                 }
                 else -> ""
             }
@@ -192,8 +192,8 @@ interface InputKey {
                         keys.add(T9Key(it))
                     }
                 }
-                CustomConstant.SCHEMA_ZH_DOUBLE_NORMAL17 -> {
-                    Normal17PinYinUtils.pinyin2Key(pinyin).forEach {
+                CustomConstant.SCHEMA_ZH_DOUBLE_ZX17 -> {
+                    ZX17PinYinUtils.pinyin2Key(pinyin).forEach {
                         keys.add(T9Key(it))
                     }
                 }
@@ -205,6 +205,7 @@ interface InputKey {
 
         fun copy(posInInput: Int) = PinyinKey(pinyin, posInInput)
 
-        fun pinyin() = "${pinyin.lowercase()}'"
+        fun pinyin(appendDelimiter: Boolean): String =
+            pinyin.lowercase() + if (appendDelimiter) "'" else ""
     }
 }

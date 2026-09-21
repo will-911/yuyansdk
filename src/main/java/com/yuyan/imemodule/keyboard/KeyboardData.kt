@@ -86,25 +86,25 @@ object KeyboardData {
         arrayOf(31, 45, 35, 34, 48, 67),
     )
 
-    val layoutNormal17Cn: Map<SkbStyleMode, ArrayList<Array<Int>>> = linkedMapOf(
-        SkbStyleMode.Google to normal17Rows(),
-        SkbStyleMode.Samsung to normal17Rows(),
-        SkbStyleMode.Yuyan to normal17Rows(),
+    val layoutZX17Cn: Map<SkbStyleMode, ArrayList<Array<Int>>> = linkedMapOf(
+        SkbStyleMode.Google to zx17Rows(),
+        SkbStyleMode.Samsung to zx17Rows(),
+        SkbStyleMode.Yuyan to zx17Rows(),
     )
 
-    private fun normal17Rows() = arrayListOf(
+    private fun zx17Rows() = arrayListOf(
         arrayOf(KeyEvent.KEYCODE_Q, KeyEvent.KEYCODE_E, KeyEvent.KEYCODE_T, KeyEvent.KEYCODE_U, KeyEvent.KEYCODE_I, KeyEvent.KEYCODE_O),
         arrayOf(KeyEvent.KEYCODE_A, KeyEvent.KEYCODE_D, KeyEvent.KEYCODE_G, KeyEvent.KEYCODE_H, KeyEvent.KEYCODE_J, KeyEvent.KEYCODE_L),
         arrayOf(KeyEvent.KEYCODE_Z, KeyEvent.KEYCODE_C, KeyEvent.KEYCODE_V, KeyEvent.KEYCODE_B, KeyEvent.KEYCODE_M, KeyEvent.KEYCODE_DEL),
     )
 
-    val layoutNormal17CnWithLeftPrefix: Map<SkbStyleMode, ArrayList<Array<Int>>> = linkedMapOf(
-        SkbStyleMode.Google to normal17RowsWithLeftPrefix(),
-        SkbStyleMode.Samsung to normal17RowsWithLeftPrefix(),
-        SkbStyleMode.Yuyan to normal17RowsWithLeftPrefix(),
+    val layoutZX17CnWithLeftPrefix: Map<SkbStyleMode, ArrayList<Array<Int>>> = linkedMapOf(
+        SkbStyleMode.Google to zx17RowsWithLeftPrefix(),
+        SkbStyleMode.Samsung to zx17RowsWithLeftPrefix(),
+        SkbStyleMode.Yuyan to zx17RowsWithLeftPrefix(),
     )
 
-    private fun normal17RowsWithLeftPrefix() = arrayListOf(
+    private fun zx17RowsWithLeftPrefix() = arrayListOf(
         arrayOf(InputModeSwitcher.USER_KEYCODE_LEFT_SYMBOL, KeyEvent.KEYCODE_Q, KeyEvent.KEYCODE_E, KeyEvent.KEYCODE_T, KeyEvent.KEYCODE_U, KeyEvent.KEYCODE_I, KeyEvent.KEYCODE_O),
         arrayOf(KeyEvent.KEYCODE_A, KeyEvent.KEYCODE_D, KeyEvent.KEYCODE_G, KeyEvent.KEYCODE_H, KeyEvent.KEYCODE_J, KeyEvent.KEYCODE_L),
         arrayOf(KeyEvent.KEYCODE_Z, KeyEvent.KEYCODE_C, KeyEvent.KEYCODE_V, KeyEvent.KEYCODE_B, KeyEvent.KEYCODE_M, KeyEvent.KEYCODE_DEL),

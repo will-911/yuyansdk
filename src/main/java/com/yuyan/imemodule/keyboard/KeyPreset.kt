@@ -188,7 +188,7 @@ object KeyPreset {
         InputModeSwitcher.USER_KEYCODE_EMOJI to arrayOf("表情"),
     )
 
-    val normal17PYKeyPreset: Map<Int, Array<String>> = hashMapOf(
+    val zx17PYKeyPreset: Map<Int, Array<String>> = hashMapOf(
         KeyEvent.KEYCODE_Q to arrayOf("QW", "-"),
         KeyEvent.KEYCODE_E to arrayOf("ER", "/"),
         KeyEvent.KEYCODE_T to arrayOf("TY", "\\"),
@@ -215,7 +215,7 @@ object KeyPreset {
         InputModeSwitcher.USER_KEYCODE_EMOJI to arrayOf("表情"),
     )
 
-    val normal17PYKeyNumberPreset: Map<Int, Array<String>> = hashMapOf(
+    val zx17PYKeyNumberPreset: Map<Int, Array<String>> = hashMapOf(
         KeyEvent.KEYCODE_Q to arrayOf("QW", "@"),
         KeyEvent.KEYCODE_E to arrayOf("ER", "；"),
         KeyEvent.KEYCODE_T to arrayOf("TY", "1"),

@@ -14,6 +14,6 @@ schema_list:
   - schema: double_pinyin_abc
   - schema: double_pinyin_ziguang
   - schema: double_pinyin_ls17
-  - schema: double_pinyin_normal17
+  - schema: double_pinyin_zx17
   - schema: stroke
   - schema: english

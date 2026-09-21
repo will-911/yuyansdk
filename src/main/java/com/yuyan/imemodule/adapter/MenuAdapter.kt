@@ -124,8 +124,8 @@ class MenuAdapter (context: Context?, val data: MutableList<SkbFunItem>) : Recyc
             SkbMenuMode.Pinyin26Jian -> rimeValue == CustomConstant.SCHEMA_ZH_QWERTY
             SkbMenuMode.PinyinHandWriting -> rimeValue == CustomConstant.SCHEMA_ZH_HANDWRITING
             SkbMenuMode.PinyinLx17 -> rimeValue == CustomConstant.SCHEMA_ZH_DOUBLE_LX17
-            SkbMenuMode.PinyinNormal17 -> rimeValue == CustomConstant.SCHEMA_ZH_DOUBLE_NORMAL17
-            SkbMenuMode.Pinyin26Double -> rimeValue.startsWith(CustomConstant.SCHEMA_ZH_DOUBLE_FLYPY) && rimeValue !in setOf(CustomConstant.SCHEMA_ZH_DOUBLE_LX17, CustomConstant.SCHEMA_ZH_DOUBLE_NORMAL17)
+            SkbMenuMode.PinyinZx17 -> rimeValue == CustomConstant.SCHEMA_ZH_DOUBLE_ZX17
+            SkbMenuMode.Pinyin26Double -> rimeValue.startsWith(CustomConstant.SCHEMA_ZH_DOUBLE_FLYPY) && rimeValue !in setOf(CustomConstant.SCHEMA_ZH_DOUBLE_LX17, CustomConstant.SCHEMA_ZH_DOUBLE_ZX17)
             SkbMenuMode.PinyinStroke -> rimeValue == CustomConstant.SCHEMA_ZH_STROKE
             SkbMenuMode.TextEdit -> InputModeSwitcher.isTextEditSkb
             else -> false

@@ -19,10 +19,10 @@ import com.yuyan.imemodule.database.entry.UsedSymbol
 import com.yuyan.imemodule.prefs.behavior.SkbMenuMode
 import com.yuyan.imemodule.utils.thread.ThreadPoolUtils
 import com.yuyan.inputmethod.util.LX17PinYinUtils
-import com.yuyan.inputmethod.util.Normal17PinYinUtils
+import com.yuyan.inputmethod.util.ZX17PinYinUtils
 
 //@Database(entities = [SideSymbol::class, Clipboard::class, UsedSymbol::class], version = 1, exportSchema = false)
-@Database(entities = [SideSymbol::class, Clipboard::class, UsedSymbol::class, Phrase::class, SkbFun::class], version = 5, exportSchema = false)
+@Database(entities = [SideSymbol::class, Clipboard::class, UsedSymbol::class, Phrase::class, SkbFun::class], version = 6, exportSchema = false)
 abstract class DataBaseKT : RoomDatabase() {
     abstract fun sideSymbolDao(): SideSymbolDao
     abstract fun clipboardDao(): ClipboardDao
@@ -52,7 +52,19 @@ abstract class DataBaseKT : RoomDatabase() {
 
         private val MIGRATION_4_5 = object : Migration(4, 5) {
             override fun migrate(db: SupportSQLiteDatabase) {
+                // Version 5 used the former name. Version 6 renames it while preserving data.
                 db.execSQL("ALTER TABLE phrase ADD COLUMN normal17 TEXT NOT NULL DEFAULT ''")
+            }
+        }
+
+        private val MIGRATION_5_6 = object : Migration(5, 6) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                // Rebuild instead of ALTER TABLE RENAME COLUMN for Android's older SQLite versions.
+                db.execSQL("CREATE TABLE phrase_zx17 (content TEXT NOT NULL, isKeep INTEGER NOT NULL, t9 TEXT NOT NULL, qwerty TEXT NOT NULL, lx17 TEXT NOT NULL, zx17 TEXT NOT NULL DEFAULT '', time INTEGER NOT NULL, PRIMARY KEY(content))")
+                db.execSQL("INSERT INTO phrase_zx17 (content, isKeep, t9, qwerty, lx17, zx17, time) SELECT content, isKeep, t9, qwerty, lx17, normal17, time FROM phrase")
+                db.execSQL("DROP TABLE phrase")
+                db.execSQL("ALTER TABLE phrase_zx17 RENAME TO phrase")
+                db.execSQL("UPDATE skbfun SET name = 'PinyinZx17' WHERE name = 'PinyinNormal17'")
             }
         }
 
@@ -62,6 +74,7 @@ abstract class DataBaseKT : RoomDatabase() {
             .addMigrations(MIGRATION_2_3)
             .addMigrations(MIGRATION_3_4)
             .addMigrations(MIGRATION_4_5)
+            .addMigrations(MIGRATION_5_6)
             .addCallback(object :Callback(){
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
@@ -103,9 +116,9 @@ abstract class DataBaseKT : RoomDatabase() {
             // 由常用语的拼音首字母同时维护两套17键索引，兼容升级前的数据。
             instance.phraseDao().getAll().forEach { phrase ->
                 val lx17 = phrase.qwerty.map { LX17PinYinUtils.pinyin2Lx17Key(it) }.joinToString("")
-                val normal17 = phrase.qwerty.map { Normal17PinYinUtils.pinyinInitialToKey(it) }.joinToString("")
-                if (phrase.lx17 != lx17 || phrase.normal17 != normal17) {
-                    instance.phraseDao().update(phrase.copy(lx17 = lx17, normal17 = normal17))
+                val zx17 = phrase.qwerty.map { ZX17PinYinUtils.pinyinInitialToKey(it) }.joinToString("")
+                if (phrase.lx17 != lx17 || phrase.zx17 != zx17) {
+                    instance.phraseDao().update(phrase.copy(lx17 = lx17, zx17 = zx17))
                 }
             }
             if(instance.skbFunDao().getAllMenu().isEmpty()) {

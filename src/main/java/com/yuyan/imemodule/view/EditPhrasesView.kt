@@ -19,7 +19,7 @@ import com.yuyan.imemodule.manager.InputModeSwitcher
 import com.yuyan.imemodule.keyboard.KeyboardManager
 import com.yuyan.imemodule.view.widget.ImeEditText
 import com.yuyan.inputmethod.util.LX17PinYinUtils
-import com.yuyan.inputmethod.util.Normal17PinYinUtils
+import com.yuyan.inputmethod.util.ZX17PinYinUtils
 import com.yuyan.inputmethod.util.T9PinYinUtils
 import splitties.dimensions.dp
 import splitties.views.dsl.core.add
@@ -93,8 +93,8 @@ class EditPhrasesView(context: Context) : LinearLayout(context){
             val pinYinHeadChar  = mEtPhrasesQuickCode.text.toString()
             val pinYinHeadT9 = pinYinHeadChar.map { T9PinYinUtils.pinyin2T9Key(it)}.joinToString("")
             val pinYinHeadLX17 = pinYinHeadChar.map { LX17PinYinUtils.pinyin2Lx17Key(it) }.joinToString("")
-            val pinYinHeadNormal17 = pinYinHeadChar.map { Normal17PinYinUtils.pinyinInitialToKey(it) }.joinToString("")
-            val phrase = Phrase(content = content, t9 = pinYinHeadT9, qwerty = pinYinHeadChar, lx17 = pinYinHeadLX17, normal17 = pinYinHeadNormal17)
+            val pinYinHeadZX17 = pinYinHeadChar.map { ZX17PinYinUtils.pinyinInitialToKey(it) }.joinToString("")
+            val phrase = Phrase(content = content, t9 = pinYinHeadT9, qwerty = pinYinHeadChar, lx17 = pinYinHeadLX17, zx17 = pinYinHeadZX17)
             DataBaseKT.instance.phraseDao().insert(phrase)
             KeyboardManager.instance.switchKeyboard(InputModeSwitcher.skbImeLayout)
         }

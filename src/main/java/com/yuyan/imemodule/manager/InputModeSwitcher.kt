@@ -143,8 +143,8 @@ object InputModeSwitcher {
      */
     const val MASK_SKB_LAYOUT_TEXTEDIT= 0x8000
 
-    /** 普通顺序17键布局。 */
-    const val MASK_SKB_LAYOUT_NORMAL17 = 0x9000
+    /** 正序17键布局。 */
+    const val MASK_SKB_LAYOUT_ZX17 = 0x9000
 
     /**
      * 第6位指明语言。
@@ -344,7 +344,7 @@ object InputModeSwitcher {
             getInstance().internal.inputDefaultMode.setValue(mInputMode)
         }
         mToggleStates.modifiers = when(Kernel.getCurrentRimeSchema()) {
-            CustomConstant.SCHEMA_ZH_T9, CustomConstant.SCHEMA_ZH_STROKE, CustomConstant.SCHEMA_ZH_DOUBLE_LX17, CustomConstant.SCHEMA_ZH_DOUBLE_NORMAL17 -> KeyEvent.META_CAPS_LOCK_ON
+            CustomConstant.SCHEMA_ZH_T9, CustomConstant.SCHEMA_ZH_STROKE, CustomConstant.SCHEMA_ZH_DOUBLE_LX17, CustomConstant.SCHEMA_ZH_DOUBLE_ZX17 -> KeyEvent.META_CAPS_LOCK_ON
             else -> MASK_CASE_LOWER
         }
     }

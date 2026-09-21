@@ -1,8 +1,8 @@
 # Source definition for the precompiled prism shipped in assets/rime/build.
 # The schema id is kept for compatibility with Yuyan's embedded Rime config.
 schema:
-  schema_id: double_pinyin_normal17
-  name: "普通17键小鹤双拼"
+  schema_id: double_pinyin_zx17
+  name: "正序17键小鹤双拼"
   version: "1.0"
 
 speller:
@@ -45,4 +45,4 @@ speller:
 
 translator:
   dictionary: pinyin
-  prism: double_pinyin_normal17
+  prism: double_pinyin_zx17

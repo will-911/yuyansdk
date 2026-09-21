@@ -17,8 +17,8 @@ data class Phrase(
     var qwerty: String,
     @ColumnInfo(name = "lx17")
     var lx17: String,
-    @ColumnInfo(name = "normal17", defaultValue = "''")
-    var normal17: String = "",
+    @ColumnInfo(name = "zx17", defaultValue = "''")
+    var zx17: String = "",
     @ColumnInfo(name = "time")
     val time: Long = System.currentTimeMillis(),
 )

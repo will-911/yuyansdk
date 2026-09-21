@@ -127,7 +127,7 @@ object InputModeSwitcher {
 
     /**
      * A kind of soft keyboard layout. An input mode should be anded with
-     * [.MASK_SKB_LAYOUT] to get its soft keyboard layout. 指明乱序17
+     * [.MASK_SKB_LAYOUT] to get its soft keyboard layout. 指明普通17键
      */
     const val MASK_SKB_LAYOUT_LX17 = 0x6000
 

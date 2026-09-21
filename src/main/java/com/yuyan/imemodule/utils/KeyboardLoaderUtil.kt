@@ -201,7 +201,7 @@ class KeyboardLoaderUtil private constructor() {
                 keyBeans = lastRows(skbValue)
                 rows.add(keyBeans)
             }
-            InputModeSwitcher.MASK_SKB_LAYOUT_LX17 -> {     // 6000 乱序17键盘
+            InputModeSwitcher.MASK_SKB_LAYOUT_LX17 -> {     // 6000 普通17键键盘
                 var keyBeans: MutableList<SoftKey> = LinkedList()
                 if(AppPrefs.getInstance().keyboardSetting.lx17WithLeftPrefix.getValue()) {
                     val keys = KeyboardData.layoutLX17CnWithLeftPrefix[skbStyleMode]!!

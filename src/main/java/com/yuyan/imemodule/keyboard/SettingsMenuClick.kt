@@ -44,6 +44,7 @@ fun onSettingsMenuClick(inputView: InputView, skbMenuMode: SkbMenuMode) {
             KeyboardManager.instance.switchKeyboard()
         }
         SkbMenuMode.Feedback -> {
+            inputView.requestHideSelf()
             AppUtil.launchSettingsToKeyboard(Launcher.instance.context)
         }
         SkbMenuMode.NumberRow -> {
@@ -84,8 +85,14 @@ fun onSettingsMenuClick(inputView: InputView, skbMenuMode: SkbMenuMode) {
             Kernel.nativeUpdateImeOption()
             KeyboardManager.instance.switchKeyboard()
         }
-        SkbMenuMode.Handwriting -> AppUtil.launchSettingsToHandwriting(Launcher.instance.context)
-        SkbMenuMode.Settings -> AppUtil.launchSettings(Launcher.instance.context)
+        SkbMenuMode.Handwriting -> {
+            inputView.requestHideSelf()
+            AppUtil.launchSettingsToHandwriting(Launcher.instance.context)
+        }
+        SkbMenuMode.Settings -> {
+            inputView.requestHideSelf()
+            AppUtil.launchSettings(Launcher.instance.context)
+        }
         SkbMenuMode.OneHanded -> {
             AppPrefs.getInstance().keyboardSetting.oneHandedModSwitch.setValue(!AppPrefs.getInstance().keyboardSetting.oneHandedModSwitch.getValue())
             EnvironmentSingleton.instance.initData()

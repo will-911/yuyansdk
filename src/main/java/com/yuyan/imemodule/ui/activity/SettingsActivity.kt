@@ -3,6 +3,7 @@ package com.yuyan.imemodule.ui.activity
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -50,15 +51,13 @@ open class SettingsActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
         navController = navHostFragment!!.navController
 
+        onBackPressedDispatcher.addCallback(this) {
+            if (!navController.popBackStack()) finish()
+        }
+
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
         binding.toolbar.setNavigationOnClickListener {
-            // prevent navigate up when child fragment has enabled `OnBackPressedCallback`
-            if (onBackPressedDispatcher.hasEnabledCallbacks()) {
-                onBackPressedDispatcher.onBackPressed()
-                return@setNavigationOnClickListener
-            }
-            // "minimize" the activity if we can't go back
-            navController.navigateUp() || onSupportNavigateUp() || moveTaskToBack(false)
+            onBackPressedDispatcher.onBackPressed()
         }
         viewModel.toolbarTitle.observe(this) {
             binding.toolbar.title = it

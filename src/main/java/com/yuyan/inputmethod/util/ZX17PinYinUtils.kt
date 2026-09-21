@@ -136,6 +136,8 @@ object ZX17PinYinUtils {
         return if (normalized in validPinyins) encode(normalized) else ""
     }
 
+    internal fun allPinyinSyllables(): Set<String> = validPinyins
+
     /** 用于常用语首字母索引。 */
     fun pinyinInitialToKey(initial: Char): String =
         letterToKey[initial.lowercaseChar()]?.toString() ?: initial.toString()

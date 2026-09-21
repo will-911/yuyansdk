@@ -8,6 +8,11 @@ import org.junit.Test
 
 class ZX17PinYinUtilsTest {
     @Test
+    fun usesSameSyllableInventoryAsPackagedRimeDictionary() {
+        assertEquals(414, ZX17PinYinUtils.allPinyinSyllables().size)
+    }
+
+    @Test
     fun encodesPinyinWithFlypyAndZX17Groups() {
         assertEquals("BI", ZX17PinYinUtils.pinyin2Key("ni"))
         assertEquals("HC", ZX17PinYinUtils.pinyin2Key("hao"))

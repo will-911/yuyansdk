@@ -40,14 +40,8 @@ class Normal17PinYinUtilsTest {
     }
 
     @Test
-    fun keepsSelectedFullPinyinInsteadOfExpandingItAgain() {
-        assertEquals(
-            "ni'",
-            DoublePinYinUtils.getDoublePinYinComposition(
-                "double_pinyin_normal17",
-                "ni'",
-                "",
-            ),
-        )
+    fun doesNotConfigureSecondExpansionForSelectedFullPinyin() {
+        val map = DoublePinYinUtils.doublePinyinMap.getValue("double_pinyin_normal17")
+        assertTrue(map.isEmpty())
     }
 }

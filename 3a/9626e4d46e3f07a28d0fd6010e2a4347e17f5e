@@ -1,0 +1,59 @@
+rime-source/double_pinyin_zx17.schema.yaml
+  s_239592eb13c2c0::t_7d4eee7e4db2f5 4-5,48
+src/main/assets/rime/build/default.yaml
+  s_239592eb13c2c0::t_b829ea77ad83ae 17
+src/main/assets/rime/build/double_pinyin_zx17.schema.yaml
+  s_239592eb13c2c0::t_e484822bf4d799 8-9,54-55,66
+src/main/java/com/yuyan/imemodule/adapter/CandidatesMenuAdapter.kt
+  s_239592eb13c2c0::t_a7f0230f8b8081 107-108
+src/main/java/com/yuyan/imemodule/adapter/MenuAdapter.kt
+  s_239592eb13c2c0::t_a73b21f4ee42a2 127-128
+src/main/java/com/yuyan/imemodule/database/DataBaseKT.kt
+  s_239592eb13c2c0::t_dc6400eb9c01fb 22,25,55,60-70,77,119-121
+src/main/java/com/yuyan/imemodule/database/dao/PhraseDao.kt
+  s_239592eb13c2c0::t_09b4fbf3177a52 14
+src/main/java/com/yuyan/imemodule/database/entry/Phrase.kt
+  s_239592eb13c2c0::t_97bc6a7893f654 20-21
+src/main/java/com/yuyan/imemodule/keyboard/InputView.kt
+  s_239592eb13c2c0::t_463852c70cc9cf 320
+src/main/java/com/yuyan/imemodule/keyboard/KeyMnemonicPreset.kt
+  s_239592eb13c2c0::t_5fa77ccea2c391 167
+src/main/java/com/yuyan/imemodule/keyboard/KeyPreset.kt
+  s_239592eb13c2c0::t_f92bd588160dfa 191,218
+src/main/java/com/yuyan/imemodule/keyboard/KeyboardData.kt
+  s_239592eb13c2c0::t_a0aee80b06926c 89-92,95,101-104,107
+src/main/java/com/yuyan/imemodule/keyboard/KeyboardManager.kt
+  s_239592eb13c2c0::t_f1c9540daa8c25 22,49,70
+src/main/java/com/yuyan/imemodule/keyboard/container/SettingsContainer.kt
+  s_239592eb13c2c0::t_7107d063af6cca 178,180,202
+src/main/java/com/yuyan/imemodule/manager/InputModeSwitcher.kt
+  s_239592eb13c2c0::t_a41d441e88453f 146-147,347
+src/main/java/com/yuyan/imemodule/prefs/behavior/SkbMenuMode.kt
+  s_239592eb13c2c0::t_1c17abd969cda7 27
+src/main/java/com/yuyan/imemodule/utils/KeyboardLoaderUtil.kt
+  s_239592eb13c2c0::t_7950fdfcb7e9b5 23,206,209,232,352,558-559,563
+src/main/java/com/yuyan/imemodule/view/EditPhrasesView.kt
+  s_239592eb13c2c0::t_b9514020f2ce12 22,96-97
+src/main/java/com/yuyan/inputmethod/util/DoublePinYinUtils.kt
+  s_239592eb13c2c0::t_bf005da4c2e95c 23,35
+src/main/java/com/yuyan/inputmethod/util/ZX17PinYinUtils.kt
+  s_239592eb13c2c0::t_b031ed2f82e5ee 4,14,123,132
+src/main/res/values/strings.xml
+  s_239592eb13c2c0::t_05ec52c250e0a7 163
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "3a9626e4d46e3f07a28d0fd6010e2a4347e17f5e",
+  "prompts": {},
+  "sessions": {
+    "s_239592eb13c2c0": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a0bd2a-8f21-7233-82ef-a4deb60f022f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Will Yu <will.yu@zoom.us>"
+    }
+  }
+}

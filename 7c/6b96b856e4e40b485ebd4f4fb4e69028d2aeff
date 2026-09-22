@@ -1,0 +1,36 @@
+rime-source/update-frost-lock.sh
+  s_239592eb13c2c0::t_ee117642f4fa95 1-49
+rime-source/prepare-rime-source.py
+  s_239592eb13c2c0::t_7b472a247e9b08 1-222
+  s_239592eb13c2c0::t_be828ac7efc362 223-225
+rime-source/build-rime-assets.sh
+  s_239592eb13c2c0::t_7c7039ef87a5a3 1-118
+rime-source/verify-rime-assets.py
+  s_239592eb13c2c0::t_356897ddd7500c 1-83
+  s_239592eb13c2c0::t_c5f1e6865b67dd 84-86
+rime-source/rebuild-zx17-prism.sh
+  s_239592eb13c2c0::t_6ba2e2b6d8b901 9-11
+  s_239592eb13c2c0::t_4cc6be83d173f0 8
+rime-source/README.md
+  s_239592eb13c2c0::t_ad10eced294f4b 1-49
+rime-source/THIRD_PARTY.md
+  s_239592eb13c2c0::t_7f2de1281c538c 1-11
+rime-source/frost.lock
+  s_239592eb13c2c0::t_5b27cfe91a3d60 1-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "7c6b96b856e4e40b485ebd4f4fb4e69028d2aeff",
+  "prompts": {},
+  "sessions": {
+    "s_239592eb13c2c0": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a0bd2a-8f21-7233-82ef-a4deb60f022f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Will Yu <will.yu@zoom.us>"
+    }
+  }
+}

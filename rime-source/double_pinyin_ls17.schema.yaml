@@ -1,5 +1,6 @@
-# Reproducible source definition for the original shuffled 17-key prism.
-# The shipped precompiled prism is retained from the upstream Yuyan SDK.
+# Source definition for the original shuffled 17-key prism.
+# The standard builder converts its xform rules to derive rules so lowercase
+# full-pinyin aliases remain available for Yuyan's pinyin-selection protocol.
 schema:
   schema_id: double_pinyin_ls17
   name: "乱序17键双拼"

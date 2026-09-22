@@ -1,0 +1,10 @@
+# Pinned upstream used to build Yuyan's pinyin table and prisms.
+# Run update-frost-lock.sh to resolve a newer rime-frost master commit.
+FROST_REPOSITORY="https://github.com/gaboolic/rime-frost"
+FROST_COMMIT="96310d08da8693e8ac2002634f1820229ceaf520"
+FROST_ARCHIVE_SHA256="40a4582d2d849d83ddee422a3d2619216f50821b86f3287abfcd1caf2e369014"
+FROST_ARCHIVE_URL="https://github.com/gaboolic/rime-frost/archive/96310d08da8693e8ac2002634f1820229ceaf520.tar.gz"
+FROST_COMMIT_DATE="2026-09-21T08:49:20Z"
+RIME_BUILD_CONTAINER="alpine:3.20"
+RIME_COMPILER_PACKAGE="librime-tools=1.11.2-r0"
+RIME_COMPILER_VERSION="1.11.2"

@@ -1,7 +1,7 @@
 package com.yuyan.inputmethod.util
 
 /**
- * 普通顺序 17 键小鹤双拼编码。
+ * 正序 17 键小鹤双拼编码。
  *
  * 键位分组：
  * QW ER TY U I OP
@@ -11,7 +11,7 @@ package com.yuyan.inputmethod.util
  * 每个按键向 Rime 发送该组的代表大写字母。Rime prism 使用相同规则，
  * 先把全拼转换成小鹤双拼，再把 26 个字母压缩成 17 个按键。
  */
-object Normal17PinYinUtils {
+object ZX17PinYinUtils {
     private val letterToKey = mapOf(
         'a' to 'A',
         'b' to 'B',
@@ -120,7 +120,7 @@ object Normal17PinYinUtils {
         .mapValues { (_, pinyins) -> pinyins.distinct().sorted().toTypedArray() }
 
     /** 返回当前一键或两键编码可选择的拼音。 */
-    fun normal17KeyToPinyin(sequence: String?): Array<String> {
+    fun zx17KeyToPinyin(sequence: String?): Array<String> {
         if (sequence.isNullOrEmpty()) return emptyArray()
         val normalized = sequence.uppercase()
         val prefixChoices = firstKeyPinyin[normalized.take(1)] ?: emptyArray()
@@ -129,12 +129,14 @@ object Normal17PinYinUtils {
         return (syllableChoices.asSequence() + prefixChoices.asSequence()).distinct().toList().toTypedArray()
     }
 
-    /** 把完整拼音转换为普通 17 键编码。 */
+    /** 把完整拼音转换为正序 17 键编码。 */
     fun pinyin2Key(pinyin: String?): String {
         if (pinyin.isNullOrBlank()) return ""
         val normalized = pinyin.lowercase().replace('ü', 'v')
         return if (normalized in validPinyins) encode(normalized) else ""
     }
+
+    internal fun allPinyinSyllables(): Set<String> = validPinyins
 
     /** 用于常用语首字母索引。 */
     fun pinyinInitialToKey(initial: Char): String =

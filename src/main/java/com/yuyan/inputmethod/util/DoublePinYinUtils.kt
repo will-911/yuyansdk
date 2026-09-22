@@ -18,6 +18,9 @@ object DoublePinYinUtils {
         'c' to "ch",
         's' to "sh",
     )
+    // 正序17键用大写分组键输入；拼音筛选后写回的是已经展开的完整小写拼音，
+    // 因此这里不能再按普通小鹤双拼把 i/u/v 二次展开为 ch/sh/zh。
+    val double_pinyin_zx17 = emptyMap<Char, String>()
     val double_pinyin = mapOf(
         'v' to "zh",
         'i' to "ch",
@@ -29,6 +32,7 @@ object DoublePinYinUtils {
         "double_pinyin_ziguang" to double_pinyin_abc,
         "double_pinyin_ziguang" to double_pinyin_ziguang,
         "double_pinyin_ls17" to double_pinyin_ls17,
+        "double_pinyin_zx17" to double_pinyin_zx17,
     )
 
     fun getDoublePinYinComposition(rimeSchema: String, composition: String, comment: String): String {

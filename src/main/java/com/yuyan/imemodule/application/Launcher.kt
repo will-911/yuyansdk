@@ -26,6 +26,10 @@ class Launcher {
 
     private fun currentInit() {
         AppPrefs.init(PreferenceManager.getDefaultSharedPreferences(context))
+        val pinyinMode = AppPrefs.getInstance().internal.pinyinModeRime
+        if (pinyinMode.getValue() == "double_pinyin_normal17") {
+            pinyinMode.setValue(CustomConstant.SCHEMA_ZH_DOUBLE_ZX17)
+        }
         ThemeManager.init(context.resources.configuration)
         DataBaseKT.instance.sideSymbolDao().getAllSideSymbolPinyin()  //操作一次查询，提前创建数据库，避免使用时才创建数据库
         ClipboardHelper.init()

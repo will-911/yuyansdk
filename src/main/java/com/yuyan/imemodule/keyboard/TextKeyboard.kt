@@ -44,6 +44,7 @@ open class TextKeyboard(context: Context?) : BaseKeyboardView(context){
     private var keyboardFontBold = false
     private var keyboardSymbol = false
     private var keyboardMnemonic = false
+    private var is17KeyLayout = false
     protected var mDirtyRect = Rect()
     private var skbStyleMode: SkbStyleMode = prefs.skbStyleMode.getValue()
 
@@ -65,6 +66,8 @@ open class TextKeyboard(context: Context?) : BaseKeyboardView(context){
      */
     override fun setSoftKeyboard(softSkb: SoftKeyboard) {
         super.setSoftKeyboard(softSkb)
+        is17KeyLayout = softSkb.layout == InputModeSwitcher.MASK_SKB_LAYOUT_LX17 ||
+            softSkb.layout == InputModeSwitcher.MASK_SKB_LAYOUT_ZX17
         isKeyBorder = prefs.keyBorder.getValue()
         keyRadius = prefs.keyRadius.getValue()
         mActiveTheme = activeTheme
@@ -239,7 +242,7 @@ open class TextKeyboard(context: Context?) : BaseKeyboardView(context){
         } else if (!TextUtils.isEmpty(keyLabel)) { //Label位于中间
             mPaint.color = textColor
             if(keyboardFontBold) mPaint.typeface = Typeface.DEFAULT_BOLD
-            mPaint.textSize =  mNormalKeyTextSize.toFloat()
+            mPaint.textSize = mNormalKeyTextSize.toFloat() * (if (is17KeyLayout && !TextUtils.isEmpty(keyMnemonic)) 0.9f else 1f)
             val x = softKey.mLeft + (softKey.width() - mPaint.measureText(keyLabel)) / 2.0f
             val fontHeight = mFmi.bottom - mFmi.top
             val y = if(keyLabelSmall.isEmpty()) (softKey.mTop + softKey.mBottom) / 2.0f + fontHeight
@@ -249,7 +252,7 @@ open class TextKeyboard(context: Context?) : BaseKeyboardView(context){
         if (keyboardMnemonic && !TextUtils.isEmpty(keyMnemonic)) {  //助记符位于中下方
             mPaint.color = textColor
             mPaint.typeface = Typeface.DEFAULT
-            mPaint.textSize = mNormalKeyTextSizeSmall.toFloat() * 0.7f
+            mPaint.textSize = mNormalKeyTextSizeSmall.toFloat() * (if (is17KeyLayout) 0.95f else 0.7f)
             val x = softKey.mLeft + (softKey.width() - mPaint.measureText(keyMnemonic)) / 2.0f
             val y = softKey.mTop + weightHeigth * 3 + weightHeigth / 2.0f
             canvas.drawText(keyMnemonic, x, y, mPaint)

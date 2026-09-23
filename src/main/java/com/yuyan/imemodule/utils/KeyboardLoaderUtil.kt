@@ -306,7 +306,7 @@ class KeyboardLoaderUtil private constructor() {
             SkbStyleMode.Samsung -> numberLine
             SkbStyleMode.Google -> numberLine
         }
-        softKeyboard = getSoftKeyboard(rows, numberLineSkb)
+        softKeyboard = getSoftKeyboard(rows, numberLineSkb, skbValue)
         mSoftKeyboardMap[skbValue] = softKeyboard
         return softKeyboard
     }
@@ -445,7 +445,7 @@ class KeyboardLoaderUtil private constructor() {
     }
 
     /** 生成键盘布局，主要用于计算键盘边界 */
-    private fun getSoftKeyboard(rows: List<List<SoftKey>>, isNumberRow: Boolean): SoftKeyboard {
+    private fun getSoftKeyboard(rows: List<List<SoftKey>>, isNumberRow: Boolean, layout: Int): SoftKeyboard {
         var lastKeyBottom = 0f
         var lastKeyRight: Float
         var lastKeyTop: Float
@@ -472,7 +472,7 @@ class KeyboardLoaderUtil private constructor() {
                 lastKeyBottom = keyYPos + keyHeight
             }
         }
-        return SoftKeyboard(rows)
+        return SoftKeyboard(rows, layout)
     }
 
     private fun createT9Keys(codes: Array<Int>): Array<SoftKey> {

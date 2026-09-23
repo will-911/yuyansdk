@@ -111,6 +111,26 @@ val PopupPreset: Map<String, Array<String>> = hashMapOf(
     "Q~" to arrayOf("q", "Q"),
     "FC" to arrayOf("f", "C", "c", "F"),
 
+    // ZX17：组合键长按可选单个字母；符号仍由 PopupSmallPreset 提供。
+    "QW" to arrayOf("Q", "W", "q", "w"),
+    "ER" to arrayOf("E", "R", "e", "r"),
+    "TY" to arrayOf("T", "Y", "t", "y"),
+    "OP" to arrayOf("O", "P", "o", "p"),
+    "AS" to arrayOf("A", "S", "a", "s"),
+    "DF" to arrayOf("D", "F", "d", "f"),
+    "JK" to arrayOf("J", "K", "j", "k"),
+    "ZX" to arrayOf("Z", "X", "z", "x"),
+    "BN" to arrayOf("B", "N", "b", "n"),
+    "qw" to arrayOf("Q", "W", "q", "w"),
+    "er" to arrayOf("E", "R", "e", "r"),
+    "ty" to arrayOf("T", "Y", "t", "y"),
+    "op" to arrayOf("O", "P", "o", "p"),
+    "as" to arrayOf("A", "S", "a", "s"),
+    "df" to arrayOf("D", "F", "d", "f"),
+    "jk" to arrayOf("J", "K", "j", "k"),
+    "zx" to arrayOf("Z", "X", "z", "x"),
+    "bn" to arrayOf("B", "N", "b", "n"),
+
     //
     // Other
     //

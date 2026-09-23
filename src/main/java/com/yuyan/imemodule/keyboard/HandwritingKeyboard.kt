@@ -22,7 +22,7 @@ import kotlin.math.max
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
-class HandwritingKeyboard(context: Context?, is17KeyLayout: Boolean = false) : TextKeyboard(context, is17KeyLayout) {
+class HandwritingKeyboard(context: Context?) : TextKeyboard(context) {
 
     private val mPointsCache: MutableList<TimedPoint> = ArrayList<TimedPoint>()
     private val mControlTimedPointsCached = ControlTimedPoints()

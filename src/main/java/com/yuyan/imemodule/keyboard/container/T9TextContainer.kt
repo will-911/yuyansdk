@@ -73,8 +73,7 @@ open class T9TextContainer(context: Context?, inputView: InputView, skbValue: In
      */
     override fun updateSkbLayout() {
         if (null == mMajorView) {
-            mMajorView = HandwritingKeyboard(context, mSkbValue == InputModeSwitcher.MASK_SKB_LAYOUT_LX17 ||
-                mSkbValue == InputModeSwitcher.MASK_SKB_LAYOUT_ZX17)
+            mMajorView = HandwritingKeyboard(context)
             val params = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
             addView(mMajorView, params)
             mMajorView!!.setResponseKeyEvent(inputView)

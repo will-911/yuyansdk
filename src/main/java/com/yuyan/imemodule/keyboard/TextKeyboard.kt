@@ -30,7 +30,7 @@ import com.yuyan.imemodule.prefs.behavior.SkbStyleMode
 /**
  * 软件盘视图
  */
-open class TextKeyboard(context: Context?, private val is17KeyLayout: Boolean = false) : BaseKeyboardView(context){
+open class TextKeyboard(context: Context?) : BaseKeyboardView(context){
     private var mKeyboardChanged = false
     private var mBuffer: Bitmap? = null
     private var mCanvas: Canvas? = null
@@ -44,6 +44,7 @@ open class TextKeyboard(context: Context?, private val is17KeyLayout: Boolean = 
     private var keyboardFontBold = false
     private var keyboardSymbol = false
     private var keyboardMnemonic = false
+    private var is17KeyLayout = false
     protected var mDirtyRect = Rect()
     private var skbStyleMode: SkbStyleMode = prefs.skbStyleMode.getValue()
 
@@ -65,6 +66,8 @@ open class TextKeyboard(context: Context?, private val is17KeyLayout: Boolean = 
      */
     override fun setSoftKeyboard(softSkb: SoftKeyboard) {
         super.setSoftKeyboard(softSkb)
+        is17KeyLayout = softSkb.layout == InputModeSwitcher.MASK_SKB_LAYOUT_LX17 ||
+            softSkb.layout == InputModeSwitcher.MASK_SKB_LAYOUT_ZX17
         isKeyBorder = prefs.keyBorder.getValue()
         keyRadius = prefs.keyRadius.getValue()
         mActiveTheme = activeTheme

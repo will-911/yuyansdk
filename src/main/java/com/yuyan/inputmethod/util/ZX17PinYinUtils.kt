@@ -87,18 +87,19 @@ object ZX17PinYinUtils {
     )
 
     private val firstKeyPinyin = mapOf(
-        "A" to arrayOf("a", "s"),
+        // a/e/o 是零声母完整音节，必须输入两键编码后才能选择。
+        "A" to arrayOf("s"),
         "B" to arrayOf("b", "n"),
         "C" to arrayOf("c"),
         "D" to arrayOf("d", "f"),
-        "E" to arrayOf("e", "r"),
+        "E" to arrayOf("r"),
         "G" to arrayOf("g"),
         "H" to arrayOf("h"),
         "I" to arrayOf("ch"),
         "J" to arrayOf("j", "k"),
         "L" to arrayOf("l"),
         "M" to arrayOf("m"),
-        "O" to arrayOf("o", "p"),
+        "O" to arrayOf("p"),
         "Q" to arrayOf("q", "w"),
         "T" to arrayOf("t", "y"),
         "U" to arrayOf("sh"),
@@ -129,11 +130,15 @@ object ZX17PinYinUtils {
         return (syllableChoices.asSequence() + prefixChoices.asSequence()).distinct().toList().toTypedArray()
     }
 
-    /** 把完整拼音转换为正序 17 键编码。 */
+    /** 把完整拼音或筛选声母转换为正序 17 键编码。 */
     fun pinyin2Key(pinyin: String?): String {
         if (pinyin.isNullOrBlank()) return ""
         val normalized = pinyin.lowercase().replace('ü', 'v')
-        return if (normalized in validPinyins) encode(normalized) else ""
+        if (normalized in validPinyins) return encode(normalized)
+        return firstKeyPinyin.entries
+            .firstOrNull { (_, initials) -> normalized in initials }
+            ?.key
+            .orEmpty()
     }
 
     internal fun allPinyinSyllables(): Set<String> = validPinyins

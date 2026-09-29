@@ -21,7 +21,15 @@ class ZX17PinYinUtilsTest {
         assertEquals("ZT", ZX17PinYinUtils.pinyin2Key("xue"))
         assertEquals("EE", ZX17PinYinUtils.pinyin2Key("er"))
         assertEquals("QI", ZX17PinYinUtils.pinyin2Key("qi"))
-        assertEquals("", ZX17PinYinUtils.pinyin2Key("b"))
+    }
+
+    @Test
+    fun mapsSelectedInitialsBackToTheirSingleGroupedKey() {
+        assertEquals("A", ZX17PinYinUtils.pinyin2Key("s"))
+        assertEquals("B", ZX17PinYinUtils.pinyin2Key("b"))
+        assertEquals("E", ZX17PinYinUtils.pinyin2Key("r"))
+        assertEquals("O", ZX17PinYinUtils.pinyin2Key("p"))
+        assertEquals("V", ZX17PinYinUtils.pinyin2Key("zh"))
     }
 
     @Test
@@ -36,6 +44,20 @@ class ZX17PinYinUtilsTest {
             arrayOf("q", "w"),
             ZX17PinYinUtils.zx17KeyToPinyin("Q"),
         )
+    }
+
+    @Test
+    fun doesNotExposeZeroInitialSyllablesAfterOneKey() {
+        assertArrayEquals(arrayOf("s"), ZX17PinYinUtils.zx17KeyToPinyin("A"))
+        assertArrayEquals(arrayOf("r"), ZX17PinYinUtils.zx17KeyToPinyin("E"))
+        assertArrayEquals(arrayOf("p"), ZX17PinYinUtils.zx17KeyToPinyin("O"))
+    }
+
+    @Test
+    fun exposesZeroInitialSyllablesAfterTheirCompleteTwoKeyCode() {
+        assertTrue("a" in ZX17PinYinUtils.zx17KeyToPinyin("AA"))
+        assertTrue("e" in ZX17PinYinUtils.zx17KeyToPinyin("EE"))
+        assertTrue("o" in ZX17PinYinUtils.zx17KeyToPinyin("OO"))
     }
 
     @Test
